@@ -75,9 +75,7 @@ let total = 0;
 
 function buy(id) {
   // 1. Loop for to the array products to get the item to add to cart
-  let i = 0,
-    productPurchased,
-    search = false;
+  let i = 0,productPurchased,search = false;
 
   while (i < products.length && search === false) {
     if (products[i].id === id) {
@@ -104,6 +102,15 @@ function cleanCart() {
 // Exercise 3
 function calculateTotal() {
   // Calculate total price of the cart using the "cartList" array
+
+  let i,price = 0,totalPrice = 0;
+
+  for (i = 0; i < cartList.length; i++) {
+    price = cartList[i].price;
+    totalPrice += price;
+  }
+
+  console.log(totalPrice);
 }
 
 // Exercise 4
