@@ -172,6 +172,31 @@ function applyPromotionsCart() {
 // Exercise 6
 function printCart() {
   // Fill the shopping cart modal manipulating the shopping cart dom
+  let i,
+    shoppingList = "",
+    cartItem,
+    cartTotal = 0;
+
+  for (i = 0; i < cart.length; i++) {
+    cartItem = cart[i];
+
+    shoppingList += "<tr>";
+    shoppingList += "<th scope='row'>" + cartItem.name + "</th>";
+    shoppingList += "<td>" + cartItem.price + "</td>";
+    shoppingList += "<td>" + cartItem.quantity + "</td>";
+    if (cartItem.subTotalWithDiscount === "not available") {
+      shoppingList += "<td>" + cartItem.subTotal + "</td>";
+      cartTotal += cartItem.subTotal;
+    } else {
+      shoppingList += "<td>" + cartItem.subTotalWithDiscount + "</td>";
+      cartTotal += cartItem.subTotalWithDiscount;
+    }
+    shoppingList += "</tr>";
+  }
+  document.getElementById("cart_list").innerHTML = shoppingList;
+  document.getElementById("total_price").innerHTML = cartTotal.toFixed(2);
+
+  // Se hizo dinamico el contador de productos en el boton "Cart Modal"
 }
 
 // ** Nivell II **
@@ -191,5 +216,6 @@ function removeFromCart(id) {
 
 function open_modal() {
   console.log("Open Modal");
+  generateCart();
   printCart();
 }
