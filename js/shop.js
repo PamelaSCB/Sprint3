@@ -75,7 +75,9 @@ let total = 0;
 
 function buy(id) {
   // 1. Loop for to the array products to get the item to add to cart
-  let i = 0,productPurchased,search = false;
+  let i = 0,
+    productPurchased,
+    search = false;
 
   while (i < products.length && search === false) {
     if (products[i].id === id) {
@@ -86,7 +88,6 @@ function buy(id) {
   }
 
   // 2. Add found product to the cartList array
-
   if (search === true) cartList.push(productPurchased);
 
   console.table(cartList);
@@ -103,7 +104,9 @@ function cleanCart() {
 function calculateTotal() {
   // Calculate total price of the cart using the "cartList" array
 
-  let i,price = 0,totalPrice = 0;
+  let i,
+    price = 0,
+    totalPrice = 0;
 
   for (i = 0; i < cartList.length; i++) {
     price = cartList[i].price;
@@ -117,6 +120,29 @@ function calculateTotal() {
 function generateCart() {
   // Using the "cartlist" array that contains all the items in the shopping cart,
   // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+
+  let i, cartListItem, cartItem;
+
+  for (i = 0; i < cartList.length; i++) {
+    cartListItem = cartList[i];
+    cartItem = cart.find((element) => element.id === cartListItem.id);
+
+    if (cartItem === undefined) {
+      cartListItem.quantity = 1;
+      cartListItem.subTotal = cartListItem.price * cartListItem.quantity;
+
+      cartListItem.subTotalWithDiscount = "not available";
+      cart.push(cartListItem);
+    } else {
+      cartItem.quantity += 1;
+      cartItem.subTotal = cartItem.price * cartItem.quantity;
+
+      cartItem.subTotalWithDiscount = "not available";
+    }
+  }
+
+  console.table(cart);
+  //  Se creo el boton "Generate Cart" para que se pueda usar con la Funcio generateCart().
 }
 
 // Exercise 5
