@@ -140,14 +140,33 @@ function generateCart() {
       cartItem.subTotalWithDiscount = "not available";
     }
   }
-
+  applyPromotionsCart();
   console.table(cart);
-  //  Se creo el boton "Generate Cart" para que se pueda usar con la Funcio generateCart().
+  //  Se creo el boton "Generate Cart" para que se pueda aplicar las funciones: generateCart() + applyPromotionsCart().
 }
 
 // Exercise 5
 function applyPromotionsCart() {
   // Apply promotions to each item in the array "cart"
+  let i, cartItem;
+  for (i = 0; i < cart.length; i++) {
+    cartItem = cart[i];
+
+    if (cartItem.id === 1 && cartItem.quantity >= 3) {
+      cartItem.subTotalWithDiscount = Number(
+        (10 * cartItem.quantity).toFixed(2)
+      );
+    }
+
+    if (cartItem.id === 3 && cartItem.quantity >= 10) {
+      cartItem.subTotalWithDiscount = Number(
+        ((2 / 3) * cartItem.price * cartItem.quantity).toFixed(2)
+      );
+    }
+  }
+
+  console.table(cart);
+  // La función applyPromotionsCart() esta aplicado en el boton "Generate Cart"
 }
 
 // Exercise 6
