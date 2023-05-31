@@ -90,15 +90,14 @@ function buy(id) {
 
   // 2. Add found product to the cartList array
   if (search === true) cartList.push(productPurchased);
-
-  //console.table(cartList);
 }
 
 // Exercise 2
 function cleanCart() {
-  cartList.length = 0;
-
-  //console.table(cartList);
+  cart.length = 0;
+  counter = 0;
+  document.getElementById("count_product").innerHTML = counter;
+  printCart();
 }
 
 // Exercise 3
@@ -113,8 +112,6 @@ function calculateTotal() {
     price = cartList[i].price;
     totalPrice += price;
   }
-
-  //console.log(totalPrice);
 }
 
 // Exercise 4
@@ -142,7 +139,7 @@ function generateCart() {
     }
   }
   applyPromotionsCart();
-  // console.table(cart);
+
   //  Se creo el boton "Generate Cart" para que se pueda aplicar las funciones: generateCart() + applyPromotionsCart().
 }
 
@@ -168,7 +165,6 @@ function applyPromotionsCart() {
     }
   }
 
-  console.table(cart);
   // La función applyPromotionsCart() esta aplicado en el boton "addToCart"
 }
 
@@ -186,6 +182,10 @@ function printCart() {
     shoppingList += "<tr>";
     shoppingList += "<th scope='row'>" + cartItem.name + "</th>";
     shoppingList += "<td>" + cartItem.price + "</td>";
+    shoppingList +=
+      "<td class='text-center'><button type='button'class='btn btn-outline-primary btn-sm rounded-pill border-radius' style='padding: 0 .5rem' onclick='removeFromCart(" +
+      cartItem.id +
+      ")'>-</button></td>";
     shoppingList += "<td>" + cartItem.quantity + "</td>";
     if (cartItem.subTotalWithDiscount === "not available") {
       shoppingList += "<td>" + cartItem.subTotal + "</td>";
@@ -220,7 +220,6 @@ function addToCart(id) {
   if (productPurchasedIndex != -1) {
     productPurchased = products[productPurchasedIndex];
     counter++;
-    //console.log(counter);
   }
 
   let cartItemIndex = cart.findIndex(
@@ -249,6 +248,28 @@ function addToCart(id) {
 function removeFromCart(id) {
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cartList array
+  let cartItem;
+
+  let cartItemIndex = cart.findIndex((element) => element.id === id);
+
+  if (cartItemIndex != -1) {
+    cartItem = cart[cartItemIndex];
+
+    if (cartItem.quantity > 1) {
+      cartItem.quantity--;
+    } else {
+      cart.splice(cartItemIndex, 1);
+    }
+  }
+
+  cartItem.subTotal = cartItem.price * cartItem.quantity;
+  cartItem.subTotalWithDiscount = "not available";
+  applyPromotionsCart();
+
+  printCart();
+  counter--;
+  document.getElementById("count_product").innerHTML = counter;
+  // Se ha incluido el boton "-" por cada producto de Cart.
 }
 
 function open_modal() {
