@@ -70,6 +70,7 @@ const cartList = [];
 const cart = [];
 
 let total = 0;
+let counter = 0;
 
 // Exercise 1
 
@@ -90,14 +91,14 @@ function buy(id) {
   // 2. Add found product to the cartList array
   if (search === true) cartList.push(productPurchased);
 
-  console.table(cartList);
+  //console.table(cartList);
 }
 
 // Exercise 2
 function cleanCart() {
   cartList.length = 0;
 
-  console.table(cartList);
+  //console.table(cartList);
 }
 
 // Exercise 3
@@ -113,7 +114,7 @@ function calculateTotal() {
     totalPrice += price;
   }
 
-  console.log(totalPrice);
+  //console.log(totalPrice);
 }
 
 // Exercise 4
@@ -141,7 +142,7 @@ function generateCart() {
     }
   }
   applyPromotionsCart();
-  console.table(cart);
+  // console.table(cart);
   //  Se creo el boton "Generate Cart" para que se pueda aplicar las funciones: generateCart() + applyPromotionsCart().
 }
 
@@ -156,17 +157,19 @@ function applyPromotionsCart() {
       cartItem.subTotalWithDiscount = Number(
         (10 * cartItem.quantity).toFixed(2)
       );
+      cartItem.price = 10;
     }
 
     if (cartItem.id === 3 && cartItem.quantity >= 10) {
       cartItem.subTotalWithDiscount = Number(
         ((2 / 3) * cartItem.price * cartItem.quantity).toFixed(2)
       );
+      number((cartItem.price = 2 / 3)).toFixed(2);
     }
   }
 
   console.table(cart);
-  // La función applyPromotionsCart() esta aplicado en el boton "Generate Cart"
+  // La función applyPromotionsCart() esta aplicado en el boton "addToCart"
 }
 
 // Exercise 6
@@ -202,11 +205,44 @@ function printCart() {
 // ** Nivell II **
 
 // Exercise 8
+
 function addToCart(id) {
   // Refactor previous code in order to simplify it
   // 1. Loop for to the array products to get the item to add to cart
-
   // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+
+  let productPurchased, cartItem;
+
+  let productPurchasedIndex = products.findIndex(
+    (element) => element.id === id
+  );
+
+  if (productPurchasedIndex != -1) {
+    productPurchased = products[productPurchasedIndex];
+    counter++;
+    //console.log(counter);
+  }
+
+  let cartItemIndex = cart.findIndex(
+    (element) => element.id === productPurchased.id
+  );
+
+  if (cartItemIndex == -1) {
+    cart.push(productPurchased);
+    cartItem = cart.at(-1);
+    cartItem.quantity = 1;
+  } else {
+    cartItem = cart[cartItemIndex];
+    cartItem.quantity++;
+  }
+
+  cartItem.subTotal = cartItem.price * cartItem.quantity;
+
+  cartItem.subTotalWithDiscount = "not available";
+  // Ahora aplico los descuentos y promociones con la función applyPromotionsCart
+  applyPromotionsCart();
+
+  document.getElementById("count_product").innerHTML = counter;
 }
 
 // Exercise 9
@@ -217,6 +253,6 @@ function removeFromCart(id) {
 
 function open_modal() {
   console.log("Open Modal");
-  generateCart();
+  //generateCart();
   printCart();
 }
